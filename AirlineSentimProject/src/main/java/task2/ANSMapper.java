@@ -18,7 +18,7 @@ public class ANSMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 	// We will put the ISO-3166-alpha3.tsv to Distributed Cache in the driver class
 	// so we can access to it here locally by its name
 	
-		BufferedReader br = new BufferedReader(new FileReader("ISO-3166-alpha3.tsv"));
+		BufferedReader br = new BufferedReader(new FileReader("twitterdata/ISO-3166-alpha3.tsv"));
 		String line = null;
 		
 		while (true) {
