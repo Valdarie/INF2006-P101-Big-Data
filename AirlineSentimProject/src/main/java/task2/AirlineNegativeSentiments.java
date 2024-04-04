@@ -15,10 +15,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.GenericOptionsParser;
 
-import task2.ANSMapper;
-import task2.ANSReducer;
-import task2.ANSValidationMapper;
-
 public class AirlineNegativeSentiments {
 	
 	public static void main(String[] args)
@@ -53,6 +49,7 @@ public class AirlineNegativeSentiments {
 		FileInputFormat.addInputPath(job, inPath);
 		FileOutputFormat.setOutputPath(job, outPath);
 		boolean status = job.waitForCompletion(true);
+		
 		if (status) {
 			System.exit(0);
 		} 
@@ -60,4 +57,5 @@ public class AirlineNegativeSentiments {
 			System.exit(1);
 		}
 	}
+}
 	
