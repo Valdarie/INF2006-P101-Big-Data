@@ -26,7 +26,7 @@ public class AirlineNegativeSentiments {
         Job job1 = Job.getInstance(conf, "Airline Negative Sentiments");
         job1.setJarByClass(AirlineNegativeSentiments.class);
         Path inPath = new Path(otherArgs[0]);
-        Path outPath = new Path(otherArgs[1] + "_temp");
+        Path outPath = new Path(otherArgs[1]);
         outPath.getFileSystem(conf).delete(outPath, true);
 
         // Put this file to distributed cache so we can use it to join
@@ -50,25 +50,8 @@ public class AirlineNegativeSentiments {
         FileOutputFormat.setOutputPath(job1, outPath);
         boolean status1 = job1.waitForCompletion(true);
 
-        // Run the second job if the first job completes successfully
         if (status1) {
-            // Second Job (Top Negative Reasons)
-            Configuration conf2 = new Configuration();
-            Job job2 = Job.getInstance(conf2, "Top Negative Reasons");
-            job2.setJarByClass(TopReasonsDriver.class);
-
-            job2.setMapperClass(TopReasonsMapper.class);
-            job2.setReducerClass(TopReasonsReducer.class);
-
-            job2.setOutputKeyClass(Text.class);
-            job2.setOutputValueClass(Text.class);
-
-            FileInputFormat.addInputPath(job2, outPath);
-            FileOutputFormat.setOutputPath(job2, new Path(otherArgs[1]));
-
-            boolean status2 = job2.waitForCompletion(true);
-
-            System.exit(status2 ? 0 : 1);
+            System.exit(0);
         } else {
             System.exit(1);
         }
