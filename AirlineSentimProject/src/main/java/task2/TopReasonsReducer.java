@@ -11,7 +11,7 @@ public class TopReasonsReducer extends Reducer<Text, IntWritable, Text, Text> {
 
     @Override
     protected void setup(Context context) {
-        countMap = new TreeMap<Integer, String>(Collections.reverseOrder());
+        countMap = new TreeMap<>(Collections.reverseOrder());
     }
 
     @Override
@@ -22,8 +22,7 @@ public class TopReasonsReducer extends Reducer<Text, IntWritable, Text, Text> {
             sum += val.get();
         }
 
-        String reason = key.toString();
-        countMap.put(sum, reason);
+        countMap.put(sum, key.toString());
 
         // Keep only top 5 reasons
         if (countMap.size() > 5) {
