@@ -22,7 +22,6 @@ public class AirlineNegativeSentiments {
         Configuration conf = new Configuration();
         String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 
-        // First Job
         Job job1 = Job.getInstance(conf, "Airline Negative Sentiments");
         job1.setJarByClass(AirlineNegativeSentiments.class);
         Path inPath = new Path(otherArgs[0]);
