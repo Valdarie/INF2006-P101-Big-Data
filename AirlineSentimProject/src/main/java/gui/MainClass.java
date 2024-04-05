@@ -51,8 +51,8 @@ public class MainClass extends Application {
                 StringBuilder sb = new StringBuilder();
                 while ((line = br.readLine()) != null) {
                     String[] columns = line.split(",");
-                    if (columns.length > 1 && "negative".equals(columns[1].trim())) {
-                        sb.append(columns[0]).append(": ").append(columns[2]).append("\n");
+                    if (columns.length > 15 && "negative".equals(columns[14].trim())) {
+                        sb.append(columns[15]).append("\n");
                     }
                 }
                 br.close();
