@@ -16,7 +16,6 @@ import java.io.IOException;
 
 public class MainClass extends Application {
 
-    private static final String CSV_FILE_PATH = "path_to_your_csv_file.csv"; // Update with your file path
     private TextArea sentimentTextArea;
 
     public static void main(String[] args) {
@@ -27,7 +26,7 @@ public class MainClass extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Twitter Sentiment Analysis");
 
-        Label label = new Label("Sentiments:");
+        Label label = new Label("Negative Sentiments:");
         sentimentTextArea = new TextArea();
         sentimentTextArea.setEditable(false);
 
@@ -51,28 +50,16 @@ public class MainClass extends Application {
                 String line;
                 StringBuilder sb = new StringBuilder();
                 while ((line = br.readLine()) != null) {
-                    sb.append(line).append("\n");
+                    String[] columns = line.split(",");
+                    if (columns.length > 15 && "negative".equals(columns[14].trim())) {
+                        sb.append(columns[15]).append("\n");
+                    }
                 }
                 br.close();
                 sentimentTextArea.setText(sb.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private void loadDefaultSentiments() {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(CSV_FILE_PATH));
-            String line;
-            StringBuilder sb = new StringBuilder();
-            while ((line = br.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-            br.close();
-            sentimentTextArea.setText(sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

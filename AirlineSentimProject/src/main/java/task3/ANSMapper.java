@@ -1,4 +1,4 @@
-package task2;
+package task3;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -36,22 +36,20 @@ public class ANSMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 		br.close();
 	}
 	
-	@Override
-    protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-        // Assuming CSV structure, where the first line is headers
-        String line = value.toString();
-        if (line == null || line.isEmpty() || line.contains("airline_sentiment")) {
-            return; // Skip header or empty line
-        }
-
-        String[] parts = line.split(",");
-        // Make sure to replace these indices with the correct ones if they are not
-        String airline = parts[5]; // Adjust index for 'airline'
-        String sentiment = parts[14]; // Adjust index for 'airline_sentiment'
-        String reason = parts[15]; // Adjust index for 'negativereason'
-
-        if ("negative".equals(sentiment) && reason != null && !reason.isEmpty()) {
-            context.write(new Text(airline + "\t" + reason), new IntWritable(1));
-        }
-    }
+		@Override
+	protected void map(LongWritable key, Text value, Mapper<LongWritable, Text, Text, IntWritable>.Context context) 
+		throws IOException, InterruptedException {
+		String[] parts = value.toString().split(",");
+		String countryCode = parts[10];
+		String sentiment = parts[14];
+		
+		if (countryCode != null && sentiment != null) {
+			String countryName = countryCodes.get(countryCode);
+			
+			if (sentiment.equals("negative") && countryName != null) {
+				context.write(new Text(countryName), new IntWritable(1));
+				// System.out.println("Mapper: writing country code: " + countryCode);
+			}
+		}
+	}
 }
