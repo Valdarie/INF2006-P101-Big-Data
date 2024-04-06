@@ -1,63 +1,72 @@
 package task4;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.chain.ChainMapper;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.GenericOptionsParser;
 
 public class DriverClass {
-	
-	public static void main(String[] args)
-			throws IOException, URISyntaxException, ClassNotFoundException, InterruptedException {
+
+	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
-		
-		Job job = Job.getInstance(conf, "Airline Negative Sentiments");
-		job.setJarByClass(DriverClass.class);
-		Path inPath = new Path(otherArgs[0]);
-		Path outPath = new Path(otherArgs[1]);
-		outPath.getFileSystem(conf).delete(outPath, true);
-		
-		// Put this file to distributed cache so we can use it to join
-		if (otherArgs.length > 2) {
-		    job.addCacheFile(new URI(otherArgs[2]));
+		if (otherArgs.length < 2) {
+			System.err.println("Usage: chainmapper <in> <out>");
+			System.exit(2);
 		}
-		
-		Configuration validationConf = new Configuration(false);
-		ChainMapper.addMapper(job, ANSValidationMapper.class, LongWritable.class, Text.class, LongWritable.class, 
-					Text.class, validationConf);
-		
-		Configuration ansConf = new Configuration(false);
-		ChainMapper.addMapper(job, ANSMapper.class, LongWritable.class, Text.class,Text.class, IntWritable.class,
-				ansConf);
-		
-		job.setMapperClass(ChainMapper.class);
-		// job.setCombinerClass(ANSReducer.class);
-		job.setReducerClass(ANSReducer.class);
-		
+
+		// Configure the job
+		Job job = Job.getInstance(conf, "Mean Median Calc based on Channel");
+		job.setJarByClass(DriverClass.class);
+
+		Path inputPath = new Path(otherArgs[0]);
+		Path outputPath = new Path(otherArgs[1]);
+
+		// Clear the output directory
+		FileSystem fs = FileSystem.get(conf);
+		if (fs.exists(outputPath)) {
+			fs.delete(outputPath, true);
+			System.out.println("Existing output path deleted.");
+		}
+
+		// Configure the ChainMapper to use ANSValidationMapper first
+		Configuration validationMapConf = new Configuration(false);
+		ChainMapper.addMapper(job, T4ValidationMapper.class, LongWritable.class, Text.class, LongWritable.class,
+				Text.class, validationMapConf);
+
+		// Configure the ChainMapper to use ANSMapper second
+		Configuration ansMapConf = new Configuration(false);
+		ChainMapper.addMapper(job, T4Mapper.class, LongWritable.class, Text.class, Text.class, FloatWritable.class,
+				ansMapConf);
+
+		// Set ANSReducer as the reducer class
+		job.setReducerClass(T4Reducer.class);
+
+		// Set the input and output paths
+		FileInputFormat.addInputPath(job, inputPath);
+		FileOutputFormat.setOutputPath(job, outputPath);
+
+		// Since the reducer's output is Text for both key and value, set them
+		// accordingly
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
-		
-		FileInputFormat.addInputPath(job, inPath);
-		FileOutputFormat.setOutputPath(job, outPath);
-		boolean status = job.waitForCompletion(true);
-		
-		if (status) {
+
+		// Execute the job and wait for completion
+		boolean jobCompletedSuccessfully = job.waitForCompletion(true);
+
+		if (jobCompletedSuccessfully) {
+			System.out.println("Job executed successfully.");
 			System.exit(0);
-		} 
-		else {
+		} else {
+			System.err.println("Job execution failed.");
 			System.exit(1);
 		}
 	}
 }
-	
