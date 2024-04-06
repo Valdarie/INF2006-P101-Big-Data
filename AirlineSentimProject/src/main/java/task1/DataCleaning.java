@@ -34,14 +34,11 @@ public class DataCleaning {
 		job.setOutputFormatClass(TextOutputFormat.class);
 		job.getConfiguration().set("mapreduce.output.textoutputformat.separator", ",");
 		FileInputFormat.addInputPath(job, new Path(args[0]));
-		Path outputPath = new Path(args[1]); // Output folder specified as argument
+		Path outputPath = new Path(args[1]);
 		FileOutputFormat.setOutputPath(job, outputPath);
 
 		// Wait for the job to complete
 		if (job.waitForCompletion(true)) {
-			// Write column headers to CSV file
-			writeHeaders(outputPath, conf);
-
 			// Rename the output file
 			FileSystem fs = FileSystem.get(conf);
 			FileStatus[] files = fs.listStatus(outputPath);
@@ -57,13 +54,5 @@ public class DataCleaning {
 		} else {
 			System.exit(1);
 		}
-	}
-
-	private static void writeHeaders(Path outputPath, Configuration conf) throws IOException {
-		FileSystem fs = FileSystem.get(conf);
-		OutputStream os = fs.create(new Path(outputPath, "task1_cleanedData.csv"));
-		String headers = "_unit_id,_created_at,_golden,_id,_missed,_started_at,_tainted,_channel,_trust,_worker_id,_country,_region,_city,_ip,airline_sentiment,negativereason,airline,airline_sentiment_gold,name,negativereason_gold,retweet_count,text\n";
-		os.write(headers.getBytes("UTF-8"));
-		IOUtils.closeStream(os);
 	}
 }
