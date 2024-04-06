@@ -1,6 +1,7 @@
 package task3;
 
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
@@ -9,7 +10,7 @@ import java.net.URI;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class CountryValidationMapper extends Mapper<LongWritable, Text, Text, Text> {
+public class CountryValidationMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
     private Map<String, String> countryCodeToNameMap = new TreeMap<>();
 
     @Override
@@ -32,7 +33,7 @@ public class CountryValidationMapper extends Mapper<LongWritable, Text, Text, Te
             String countryCode = parts[10];
             String countryName = countryCodeToNameMap.get(countryCode);
             if (countryName != null) {
-                context.write(new Text(countryName), new Text("1"));
+                context.write(new Text(countryName), new IntWritable(1));
             }
         }
     }

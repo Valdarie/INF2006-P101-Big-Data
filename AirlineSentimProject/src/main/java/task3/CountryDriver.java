@@ -3,6 +3,7 @@ package task3;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.chain.ChainMapper;
@@ -21,13 +22,10 @@ public class CountryDriver {
 
         Job job = Job.getInstance(conf, "Airline Negative Sentiments");
         job.setJarByClass(CountryDriver.class);
-
+        
         // Chain Mapper setup
         Configuration validationMapConf = new Configuration(false);
-        ChainMapper.addMapper(job, CountryValidationMapper.class, Text.class, Text.class, Text.class, Text.class, validationMapConf);
-
-        Configuration mapConf = new Configuration(false);
-        ChainMapper.addMapper(job, CountryMapper.class, Text.class, Text.class, Text.class, IntWritable.class, mapConf);
+        ChainMapper.addMapper(job, CountryValidationMapper.class, LongWritable.class, Text.class, Text.class, IntWritable.class, validationMapConf);
 
         job.setReducerClass(CountryReducer.class);
 
