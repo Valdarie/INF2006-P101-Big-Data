@@ -29,7 +29,9 @@ public class DriverClass {
 		outPath.getFileSystem(conf).delete(outPath, true);
 		
 		// Put this file to distributed cache so we can use it to join
-		job.addCacheFile(new URI(otherArgs[2]));
+		if (otherArgs.length > 2) {
+		    job.addCacheFile(new URI(otherArgs[2]));
+		}
 		
 		Configuration validationConf = new Configuration(false);
 		ChainMapper.addMapper(job, ANSValidationMapper.class, LongWritable.class, Text.class, LongWritable.class, 
@@ -44,7 +46,7 @@ public class DriverClass {
 		job.setReducerClass(ANSReducer.class);
 		
 		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(IntWritable.class);
+		job.setOutputValueClass(Text.class);
 		
 		FileInputFormat.addInputPath(job, inPath);
 		FileOutputFormat.setOutputPath(job, outPath);
