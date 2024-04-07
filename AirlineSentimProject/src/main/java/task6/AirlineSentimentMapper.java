@@ -8,7 +8,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 public class AirlineSentimentMapper extends Mapper<LongWritable, Text, Text, Text> {
 
 	private Text airline = new Text();
-	private Text sentimentAndReason = new Text();
+	private Text sentiment = new Text();
 
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 		String line = value.toString();
@@ -24,24 +24,16 @@ public class AirlineSentimentMapper extends Mapper<LongWritable, Text, Text, Tex
 		String[] parts = line.split(",");
 
 		if (parts.length >= 24) {
-			String tweetText = parts[21];
 			String airlineName = parts[16];
-			String sentiment = parts[14];
-			String reason = (parts.length > 15) ? parts[15] : "Unknown"; // In case reason field is missing
+			String sentimentValue = parts[14];
 
-			// Include a placeholder for reason if sentiment is "neutral" or "positive"
-			if (sentiment.equals("neutral") || sentiment.equals("positive")) {
-				reason = "N/A";
-			}
-
-			System.out.println("Airline: " + airlineName + ", Sentiment: " + sentiment + ", Reason: " + reason);
+			System.out.println("Airline: " + airlineName + ", Sentiment: " + sentimentValue);
 
 			airline.set(airlineName);
-			sentimentAndReason.set(sentiment + "\t" + reason);
-			context.write(airline, sentimentAndReason);
+			sentiment.set(sentimentValue);
+			context.write(airline, sentiment);
 		} else {
 			System.out.println("Incomplete data in line, skipping: " + line);
 		}
 	}
-
 }

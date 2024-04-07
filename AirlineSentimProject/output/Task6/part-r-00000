@@ -1,6 +1,6 @@
-American	Positive Sentiment: 1692	Negative Sentiment: 8362	Top Reasons: CSProblem: 4130, late: 864, canttell: 729, cancel: 718, airplanestaff: 561, 
-Delta	Positive Sentiment: 1663	Negative Sentiment: 4114	Top Reasons: late: 964, CSProblem: 766, canttell: 735, cancel: 729, badflight: 249, 
-Southwest	Positive Sentiment: 1994	Negative Sentiment: 4664	Top Reasons: CSProblem: 1991, canttell: 554, late: 495, cancel: 461, badflight: 450, 
-US Airways	Positive Sentiment: 1113	Negative Sentiment: 7099	Top Reasons: CSProblem: 2371, late: 1407, canttell: 984, cancel: 541, lostluggae: 440, 
-United	Positive Sentiment: 1464	Negative Sentiment: 8788	Top Reasons: CSProblem: 2353, late: 1589, canttell: 1376, cancel: 794, lostluggae: 750, 
-Virgin America	Positive Sentiment: 453	Negative Sentiment: 532	Top Reasons: CSProblem: 173, canttell: 94, booking: 73, badflight: 57, cancel: 49, 
+American	Positive Sentiment: 1692	Negative Sentiment: 8362	Neutral Sentiment: 1655	Overall Sentiment: -6670
+Delta	Positive Sentiment: 1663	Negative Sentiment: 4114	Neutral Sentiment: 2253	Overall Sentiment: -2451
+Southwest	Positive Sentiment: 1994	Negative Sentiment: 4664	Neutral Sentiment: 2582	Overall Sentiment: -2670
+US Airways	Positive Sentiment: 1113	Negative Sentiment: 7099	Neutral Sentiment: 1307	Overall Sentiment: -5986
+United	Positive Sentiment: 1464	Negative Sentiment: 8788	Neutral Sentiment: 2511	Overall Sentiment: -7324
+Virgin America	Positive Sentiment: 453	Negative Sentiment: 532	Neutral Sentiment: 497	Overall Sentiment: -79
