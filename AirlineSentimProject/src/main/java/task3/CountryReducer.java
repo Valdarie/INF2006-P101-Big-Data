@@ -43,10 +43,10 @@ public class CountryReducer extends Reducer<Text, IntWritable, Text, IntWritable
         // Write the country with the most complaints at the top
         context.write(new Text("Country with the most complaints: " + mostComplainedCountry.toString()), maxComplaints);
 
-        // Sort the remaining countries alphabetically and write them
+        // Sort the remaining countries alphabetically and write them with "Count: " prefix
         Map<Text, IntWritable> sortedMap = new TreeMap<>(countryCountMap);
         for (Map.Entry<Text, IntWritable> entry : sortedMap.entrySet()) {
-            context.write(entry.getKey(), entry.getValue());
+            context.write(new Text(entry.getKey() + "\tCount:"), entry.getValue());
         }
     }
 }
