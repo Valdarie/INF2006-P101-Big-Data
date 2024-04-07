@@ -45,7 +45,7 @@ public class DataCleaning {
 			for (FileStatus file : files) {
 				if (file.getPath().getName().startsWith("part-r-")) {
 					Path oldFilePath = file.getPath();
-					Path newFilePath = new Path(outputPath, "task1_cleanedData.csv"); // New file path inside the "task1" folder
+					Path newFilePath = new Path(outputPath, "cleaned_data.csv"); // New file path inside the "task1" folder
 					fs.rename(oldFilePath, newFilePath);
 					break;
 				}
