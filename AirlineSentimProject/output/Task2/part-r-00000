@@ -1,0 +1,30 @@
+American	CSProblem	1017
+American	airplanestaff	350
+American	late	245
+American	cancel	214
+American	lostluggae	115
+Delta	late	356
+Delta	CSProblem	346
+Delta	cancel	334
+Delta	canttell	209
+Delta	longlines	125
+Southwest	CSProblem	704
+Southwest	badflight	284
+Southwest	canttell	255
+Southwest	late	174
+Southwest	cancel	170
+US Airways	CSProblem	877
+US Airways	canttell	471
+US Airways	late	426
+US Airways	cancel	181
+US Airways	lostluggae	177
+United	CSProblem	730
+United	canttell	654
+United	late	506
+United	lostluggae	286
+United	badflight	235
+Virgin America	CSProblem	56
+Virgin America	canttell	31
+Virgin America	late	21
+Virgin America	booking	18
+Virgin America	cancel	11

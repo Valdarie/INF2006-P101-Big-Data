@@ -1,8 +1,4 @@
-/**
- * 2202795 LEO EN QI VALERIE
- */
-
-package task2;
+package test2;
 
 import java.io.IOException;
 import org.apache.hadoop.io.LongWritable;
