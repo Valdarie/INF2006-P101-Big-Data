@@ -70,12 +70,12 @@ public class T5Reducer extends Reducer<Text, Text, Text, Text> {
 		double accuracy = (double) totalMatches / totalTweets;
 
 		// Write the total number of tweets processed to the context
-		context.write(new Text("Number of Tweets:"), new Text(String.valueOf(totalTweets)));
+		context.write(new Text("Number of Tweets: "), new Text(String.valueOf(totalTweets)));
 		// Write the total number of matches to the context
-		context.write(new Text("How many matches:"), new Text(String.valueOf(totalMatches)));
+		context.write(new Text("How many matches: "), new Text(String.valueOf(totalMatches)));
 		// Write the accuracy of sentiment prediction to the context, formatted to show
 		// up to two decimal places
-		context.write(new Text("Accuracy"), new Text(String.format("%.2f", accuracy)));
+		context.write(new Text("Accuracy: "), new Text(String.format("%.2f", accuracy)));
 	}
 
 }
