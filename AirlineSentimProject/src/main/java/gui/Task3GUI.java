@@ -30,7 +30,6 @@ public class Task3GUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // Automatically load the output file when the GUI is opened
         loadDataInBackground(new File(outputFilePath));
     }
 
